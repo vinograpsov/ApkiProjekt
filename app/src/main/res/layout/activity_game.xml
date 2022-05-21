@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GameActivity">
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="189dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="93dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/question" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="189dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="93dp"
+        android:text=""
+        app:layout_constraintTop_toBottomOf="@+id/question"
+        tools:layout_editor_absoluteX="216dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="189dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="141dp"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button1" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="189dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="141dp"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+    <TextView
+        android:id="@+id/lifes"
+        android:layout_width="97dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="184dp"
+        android:text="lifes"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/question"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="298dp" />
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="117dp"
+        android:layout_height="103dp"
+        android:layout_marginTop="39dp"
+        android:text="timer"
+        android:textSize="50sp"
+        app:layout_constraintTop_toBottomOf="@+id/points"
+        tools:layout_editor_absoluteX="147dp" />
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="387dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="43dp"
+        android:layout_marginEnd="8dp"
+        android:text="question"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timer" />
+
+    <TextView
+        android:id="@+id/points"
+        android:layout_width="151dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="39dp"
+        android:text="points"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/timer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
