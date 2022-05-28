@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "459061898730",
+    "project_id": "mathbattlewar",
+    "storage_bucket": "mathbattlewar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459061898730:android:e71351bb0a89c73b295693",
+        "android_client_info": {
+          "package_name": "com.example.projertapki"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "459061898730-mvuk1ol5pob4l8udrujq7m33kbte3am7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA858NWPKTmmmgdcyDwSTSW_vknX5SYJhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "459061898730-mvuk1ol5pob4l8udrujq7m33kbte3am7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
