@@ -58,8 +58,14 @@ public class LoginActivity extends AppCompatActivity {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                warning.setText("Succsessful");
-                warning.setTextColor(Color.GREEN);
+                if(task.isSuccessful()){
+                    warning.setText("Succsessful");
+                    warning.setTextColor(Color.GREEN);
+                }
+                else{
+                    warning.setText("FAILED");
+                    warning.setTextColor(Color.RED);
+                }
 //                startActivity(new Intent(LoginActivity.this, GameActivity.this));
 //                finish();
             }
