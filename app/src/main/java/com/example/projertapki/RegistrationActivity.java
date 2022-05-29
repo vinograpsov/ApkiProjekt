@@ -3,6 +3,7 @@ package com.example.projertapki;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -59,6 +60,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     warning.setText("Succsessful");
                     warning.setTextColor(Color.GREEN);
+                    startActivity(new Intent(RegistrationActivity.this,GameActivity.class));
+                    finish();
                 }
                 else{
                     warning.setText("FAILED");

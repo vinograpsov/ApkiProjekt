@@ -61,13 +61,13 @@ public class LoginActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     warning.setText("Succsessful");
                     warning.setTextColor(Color.GREEN);
+                    startActivity(new Intent(LoginActivity.this,GameActivity.class));
+                    finish();
                 }
                 else{
                     warning.setText("FAILED");
                     warning.setTextColor(Color.RED);
                 }
-//                startActivity(new Intent(LoginActivity.this, GameActivity.this));
-//                finish();
             }
         });
     }
