@@ -10,135 +10,89 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.ktx.Firebase;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity{
     private Button answer1, answer2, answer3 , answer4;
     private FirebaseAuth auth;
-    List<Button> buttons = new ArrayList<>();
-//    private TextView lifes, timer;
-//    private int lifesInt = 3;
-
+    TextView lifesTextView;
+    TextView timerView;
+    private int lifes;
+    Timer timer = new Timer();
+    ArrayList<String> answers = new ArrayList<>();
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
-//        lifes = findViewById(R.id.lifes);
-//        timer = findViewById(R.id.timer);
-
-//        lifes.setText(lifesInt);
-//        Button[] buttons = new Button[4];
-//        buttons[0] = answer1;
-//        buttons[1] = answer2;
-//        buttons[2] = answer3;
-//        buttons[3] = answer4;
-
-
+        lifes = 3;
+        lifesTextView  = findViewById(R.id.lifes);
+        lifesTextView.setText(Integer.toString(lifes));
         answer1 = findViewById(R.id.button1);
-        answer1.setText("1");
-
         answer2 = findViewById(R.id.button2);
-        answer2.setText("2");
-
         answer3 = findViewById(R.id.button3);
-        answer3.setText("3");
-
         answer4 = findViewById(R.id.button4);
-        answer4.setText("4");
+        answers.add("1");
+        answers.add("2");
+        answers.add("3");
+        answers.add("4");
 
+        setAnsweersOnButtons(answer1,answer2,answer3,answer4,answers);
 
+    }
 
-        buttons.add(answer1);
-        buttons.add(answer2);
-        buttons.add(answer3);
-        buttons.add(answer4);
+    private ArrayList<String> randomButtonPos(ArrayList<String> buttonNums){
+        Collections.shuffle(buttonNums);
+        return buttonNums;
+    }
 
-        answer1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                randomPos2(buttons);
-            }
-        });
+    private void setAnsweersOnButtons(Button answer1,Button answer2,Button answer3,Button answer4,ArrayList<String> answers){
+        randomButtonPos(answers);
+        answer1.setText(answers.get(0));
+        answer2.setText(answers.get(1));
+        answer3.setText(answers.get(2));
+        answer4.setText(answers.get(3));
+    }
 
-//        randomPos1(buttons);
-//        timer.setText(answer3.getText());
-
-
-   }
-
-
-
-
-   private List<Integer> randomButtonsNum(){
-        List<Integer> randoms = new ArrayList<>();
-        while (randoms.size()!= 4){
-            int randomNum = (int)(Math.random() * 4);
-            if (!randoms.contains(randomNum)){
-                randoms.add(randomNum);
-            }
+    public void shuffleButtons1(View view){
+        if(answer1.getText() == "1"){
+            setAnsweersOnButtons(answer1,answer2,answer3,answer4,answers);
+            System.out.println("clicked 1 ");
+            lifes -= 1;
+            lifesTextView.setText(Integer.toString(lifes));
         }
-        return randoms;
-   }
-
-    public void randomPos2(List<Button> buttons){
-        Collections.shuffle(buttons);
     }
 
-
-
-    public void randomPos1(Button[] buttons){
-       List<Integer> randoms = randomButtonsNum();
-       buttons[randoms.get(0)] = findViewById(R.id.button1);
-       buttons[randoms.get(0)].setText("1");
-       buttons[randoms.get(0)].setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               randomPos1(buttons);
-               System.out.println("click");
-               System.out.println(randoms);
-           }
-       });
-       buttons[randoms.get(1)] = findViewById(R.id.button2);
-       buttons[randoms.get(1)].setText("2");
-
-       buttons[randoms.get(2)] = findViewById(R.id.button3);
-       buttons[randoms.get(2)].setText("3");
-
-       buttons[randoms.get(3)] = findViewById(R.id.button4);
-       buttons[randoms.get(3)].setText("4");
-   }
-
-
-   private void randomPos(Button[] buttons){
-       List<Integer> randoms = randomButtonsNum();
-       for (int i  = 0 ; i < randoms.size(); i++){
-           int temp = randoms.get(i);
-           switch (temp){
-               case 1:
-                   buttons[i] = findViewById(R.id.button1);
-                   buttons[i].setText("1");
-                   break;
-               case 2:
-                   buttons[i] = findViewById(R.id.button2);
-                   buttons[i].setText("2");
-                   break;
-               case 3:
-                   buttons[i] = findViewById(R.id.button3);
-                   buttons[i].setText("3");
-                   break;
-               case 4:
-                   buttons[i] = findViewById(R.id.button4);
-                   buttons[i].setText("4");
-                   break;
-           }
-       }
+    public void shuffleButtons2(View view){
+        if(answer2.getText() == "1"){
+            setAnsweersOnButtons(answer1,answer2,answer3,answer4,answers);
+            System.out.println("clicked 2 ");
+            lifes -= 1;
+            lifesTextView.setText(Integer.toString(lifes));
+        }
     }
-//    answer1 = findViewById(R.id.button1);
-//    answer2 = findViewById(R.id.button2);
-//    answer3 = findViewById(R.id.button3);
-//    answer4 = findViewById(R.id.button4);
+
+    public void shuffleButtons3(View view){
+        if(answer3.getText() == "1"){
+            setAnsweersOnButtons(answer1,answer2,answer3,answer4,answers);
+            System.out.println("clicked 3 ");
+            lifes -= 1;
+            lifesTextView.setText(Integer.toString(lifes));
+        }
+    }
+
+    public void shuffleButtons4(View view){
+        if(answer4.getText() == "1"){
+            setAnsweersOnButtons(answer1,answer2,answer3,answer4,answers);
+            System.out.println("clicked 4 ");
+            lifes -= 1;
+            lifesTextView.setText(Integer.toString(lifes));
+        }
+    }
 }
