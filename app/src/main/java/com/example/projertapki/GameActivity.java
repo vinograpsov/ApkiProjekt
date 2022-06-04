@@ -3,20 +3,27 @@ package com.example.projertapki;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.ktx.Firebase;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class GameActivity extends AppCompatActivity{
     private Button answer1, answer2, answer3 , answer4;
@@ -24,15 +31,16 @@ public class GameActivity extends AppCompatActivity{
     TextView lifesTextView;
     TextView timerView;
     private int lifes;
-    Timer timer = new Timer();
     ArrayList<String> answers = new ArrayList<>();
-    @Override
+    public int timeCounter;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         lifes = 3;
         lifesTextView  = findViewById(R.id.lifes);
+        timerView = findViewById(R.id.timer);
         lifesTextView.setText(Integer.toString(lifes));
         answer1 = findViewById(R.id.button1);
         answer2 = findViewById(R.id.button2);
@@ -44,6 +52,9 @@ public class GameActivity extends AppCompatActivity{
         answers.add("4");
 
         setAnsweersOnButtons(answer1,answer2,answer3,answer4,answers);
+
+        startTimer();
+
 
     }
 
@@ -61,6 +72,7 @@ public class GameActivity extends AppCompatActivity{
     }
 
     public void shuffleButtons1(View view){
+        startTimer();
         if(answer1.getText() == "1"){
             setAnsweersOnButtons(answer1,answer2,answer3,answer4,answers);
             System.out.println("clicked 1 ");
@@ -70,6 +82,7 @@ public class GameActivity extends AppCompatActivity{
     }
 
     public void shuffleButtons2(View view){
+        startTimer();
         if(answer2.getText() == "1"){
             setAnsweersOnButtons(answer1,answer2,answer3,answer4,answers);
             System.out.println("clicked 2 ");
@@ -79,6 +92,7 @@ public class GameActivity extends AppCompatActivity{
     }
 
     public void shuffleButtons3(View view){
+        startTimer();
         if(answer3.getText() == "1"){
             setAnsweersOnButtons(answer1,answer2,answer3,answer4,answers);
             System.out.println("clicked 3 ");
@@ -88,6 +102,7 @@ public class GameActivity extends AppCompatActivity{
     }
 
     public void shuffleButtons4(View view){
+        startTimer();
         if(answer4.getText() == "1"){
             setAnsweersOnButtons(answer1,answer2,answer3,answer4,answers);
             System.out.println("clicked 4 ");
@@ -95,4 +110,25 @@ public class GameActivity extends AppCompatActivity{
             lifesTextView.setText(Integer.toString(lifes));
         }
     }
+
+    public void startTimer(){
+        new CountDownTimer(10000, 1000) { // adjust the milli seconds here
+
+            public void onTick(long millisUntilFinished) {
+                timerView.setText("" + TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
+            }
+            public void onFinish() {
+                lifes -= 1;
+                if(lifes > 0){
+                    startTimer();
+                }
+                else{
+                    timerView.setText(":(");
+                }
+
+            }
+        }.start();
+    }
+
+
 }
