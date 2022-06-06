@@ -1,12 +1,23 @@
 package com.example.projertapki;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +33,10 @@ public class GameActivity extends AppCompatActivity{
 
     private FirebaseAuth auth;
 
+
+    String username;
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
@@ -34,6 +49,7 @@ public class GameActivity extends AppCompatActivity{
         answer3 = findViewById(R.id.button3);
         answer4 = findViewById(R.id.button4);
 
+        auth = FirebaseAuth.getInstance();
 
         points = 0;
         lifes = 3;
@@ -48,7 +64,13 @@ public class GameActivity extends AppCompatActivity{
         answers.add("3");
         answers.add("4");
 
+
         setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
+
+//      get current user name from base to farther work
+        FirebaseUser currentUser = auth.getCurrentUser();
+        username = getNameFromEmail(currentUser.getEmail());
+
 
 
 
@@ -61,14 +83,14 @@ public class GameActivity extends AppCompatActivity{
                 myTimer.cancel();
                 myTimer.start();
                 lifesTextView.setText(Integer.toString(lifes));
-                if(lifes <= 0){
-                    timerView.setText(":(");
+                if(lifes == 0){
+                    onEndOfGame();
                 }
             }
         }.start();
 
 
-        System.out.println("3" == Integer.toString(rightAnswer));
+
 
 
     }
@@ -86,26 +108,10 @@ public class GameActivity extends AppCompatActivity{
         answer4.setText(answers.get(3));
     }
 
-    public void shuffleButtons1(View view){
-//        if(answer1.getText() == Integer.toString(rightAnswer)){
-        if(answer1.getText() == "" + rightAnswer){
-            points += 1;
-            myTimer.cancel();
-            myTimer.start();
-            setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
-            pointsView.setText(Integer.toString(points));
-        }
-        else{
-            myTimer.cancel();
-            myTimer.start();
-            setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
-            lifes -= 1;
-            lifesTextView.setText(Integer.toString(lifes));
-        }
-    }
-
-    public void shuffleButtons2(View view){
-        if(answer2.getText() == "" + rightAnswer){
+    public void shuffleButtons(View view){
+        Button currentButton;
+        currentButton = findViewById(view.getId());
+        if(currentButton.getText().equals("" + rightAnswer)){
             myTimer.cancel();
             myTimer.start();
             points +=1;
@@ -119,39 +125,28 @@ public class GameActivity extends AppCompatActivity{
             lifes -= 1;
             lifesTextView.setText(Integer.toString(lifes));
         }
-    }
-
-    public void shuffleButtons3(View view){
-        if(answer3.getText() == "" + rightAnswer){
-            myTimer.cancel();
-            myTimer.start();
-            points +=1;
-            setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
-            pointsView.setText(Integer.toString(points));
-        }
-        else{
-            myTimer.cancel();
-            myTimer.start();
-            setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
-            lifes -= 1;
-            lifesTextView.setText(Integer.toString(lifes));
+        if(lifes == 0){
+            onEndOfGame();
         }
     }
 
-    public void shuffleButtons4(View view){
-        if(answer4.getText() == "" + rightAnswer){
-            myTimer.cancel();
-            myTimer.start();
-            points +=1;
-            setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
-            pointsView.setText(Integer.toString(points));
+    private void onEndOfGame(){
+        firebaseLeaderboard();
+        Intent intent = new Intent(GameActivity.this, LeaderboardActivity.class);
+        startActivity(intent);
+        finish();
+
+    }
+
+    private void firebaseLeaderboard(){
+    }
+
+    private String getNameFromEmail(String email){
+        String username = "";
+        for(int i = 0; i < email.length();i++){
+            if (email.charAt(i) == '@') break;
+            username += email.charAt(i);
         }
-        else{
-            myTimer.cancel();
-            myTimer.start();
-            setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
-            lifes -= 1;
-            lifesTextView.setText(Integer.toString(lifes));
-        }
+        return username;
     }
 }

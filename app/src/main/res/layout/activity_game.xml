@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/question"
-        android:onClick="shuffleButtons1"/>
+        android:onClick="shuffleButtons"/>
 
     <Button
         android:id="@+id/button2"
@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button1"
         app:layout_constraintTop_toBottomOf="@+id/question"
-        android:onClick="shuffleButtons2"/>
+        android:onClick="shuffleButtons"/>
 
     <Button
         android:id="@+id/button3"
@@ -46,7 +46,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button1"
-        android:onClick="shuffleButtons3"/>
+        android:onClick="shuffleButtons"/>
 
     <Button
         android:id="@+id/button4"
@@ -61,7 +61,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button3"
         app:layout_constraintTop_toBottomOf="@+id/button2"
-        android:onClick="shuffleButtons4"/>
+        android:onClick="shuffleButtons"/>
 
     <TextView
         android:id="@+id/lifes"
