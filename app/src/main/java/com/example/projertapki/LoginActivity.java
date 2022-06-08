@@ -28,6 +28,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().hide();
+
         setContentView(R.layout.activity_login);
 
         email = findViewById(R.id.emailLog);
@@ -52,6 +55,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void loginUser(String email, String password){

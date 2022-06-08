@@ -16,6 +16,9 @@ public class LeaderboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().hide();
+
         setContentView(R.layout.activity_leaderboard);
 
 
@@ -42,4 +45,12 @@ public class LeaderboardActivity extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(LeaderboardActivity.this, GameActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 }

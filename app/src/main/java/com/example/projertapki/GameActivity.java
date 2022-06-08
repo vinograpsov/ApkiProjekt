@@ -28,7 +28,7 @@ public class GameActivity extends AppCompatActivity{
     TextView lifesTextView,timerView,pointsView;
     private CountDownTimer myTimer;
 
-    private int lifes,points,rightAnswer;
+    private int lifes,points,rightAnswer,current_strick,point_mult = 1;
 
 
     private FirebaseAuth auth;
@@ -39,7 +39,11 @@ public class GameActivity extends AppCompatActivity{
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().hide();
+
         setContentView(R.layout.activity_game);
+
 
         timerView = findViewById(R.id.timer);
         lifesTextView  = findViewById(R.id.lifes);
@@ -82,6 +86,8 @@ public class GameActivity extends AppCompatActivity{
                 lifes -= 1;
                 myTimer.cancel();
                 myTimer.start();
+                point_mult = 1;
+                current_strick = 0;
                 lifesTextView.setText(Integer.toString(lifes));
                 if(lifes == 0){
                     onEndOfGame();
@@ -93,6 +99,15 @@ public class GameActivity extends AppCompatActivity{
 
 
 
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(GameActivity.this, StartActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private ArrayList<String> randomButtonPos(ArrayList<String> buttonNums){
@@ -114,7 +129,13 @@ public class GameActivity extends AppCompatActivity{
         if(currentButton.getText().equals("" + rightAnswer)){
             myTimer.cancel();
             myTimer.start();
-            points +=1;
+
+            if (current_strick == 3){
+                current_strick = 0;
+                point_mult += 1;
+            }
+            points += (1 * point_mult) ;
+            current_strick +=1;
             setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
             pointsView.setText(Integer.toString(points));
         }
@@ -122,6 +143,8 @@ public class GameActivity extends AppCompatActivity{
             myTimer.cancel();
             myTimer.start();
             setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
+            current_strick = 0;
+            point_mult = 1;
             lifes -= 1;
             lifesTextView.setText(Integer.toString(lifes));
         }

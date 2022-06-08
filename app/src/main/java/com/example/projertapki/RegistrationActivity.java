@@ -28,6 +28,9 @@ public class RegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().hide();
+
         setContentView(R.layout.activity_registration);
 
         email = findViewById(R.id.emailReg);
@@ -53,6 +56,16 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(RegistrationActivity.this, StartActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+
     private void registerUser(String email, String password){
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
