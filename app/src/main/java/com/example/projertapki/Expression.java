@@ -16,8 +16,8 @@ public class Expression {
         return answer;
     }
 
-    public static List<Double> valuesToButtons(double right_value){
-        List<Double> answer = new ArrayList<>();
+    public static ArrayList<Double> valuesToButtons(double right_value){
+        ArrayList<Double> answer = new ArrayList<>();
         answer.add(right_value);
         for(int i = 0; i < 3;i++) {
             double value = Math.round((Math.random() * (right_value + 20) + right_value - 20) * 1000.0) / 1000.0;

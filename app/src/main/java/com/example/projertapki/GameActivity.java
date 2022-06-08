@@ -20,16 +20,21 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class GameActivity extends AppCompatActivity{
     private Button answer1, answer2, answer3 , answer4;
-    ArrayList<String> answers = new ArrayList<>();
-    TextView lifesTextView,timerView,pointsView;
+//    ArrayList<String> answers = new ArrayList<>();
+    TextView lifesTextView,timerView,pointsView,question;
     private CountDownTimer myTimer;
 
-    private int lifes,points,rightAnswer,current_strick,point_mult = 1;
+    private int lifes,points,current_strick,point_mult = 1;
+    private int level = 1;
 
+    private String expression;
+    private double right_answer;
+    private ArrayList<Double> answers = new ArrayList<>();
 
     private FirebaseAuth auth;
 
@@ -48,6 +53,7 @@ public class GameActivity extends AppCompatActivity{
         timerView = findViewById(R.id.timer);
         lifesTextView  = findViewById(R.id.lifes);
         pointsView = findViewById(R.id.points);
+        question = findViewById(R.id.question);
         answer1 = findViewById(R.id.button1);
         answer2 = findViewById(R.id.button2);
         answer3 = findViewById(R.id.button3);
@@ -57,17 +63,11 @@ public class GameActivity extends AppCompatActivity{
 
         points = 0;
         lifes = 3;
-        rightAnswer = 3;
 
         pointsView.setText(Integer.toString(points));
         lifesTextView.setText(Integer.toString(lifes));
 
-
-        answers.add("1");
-        answers.add("2");
-        answers.add("3");
-        answers.add("4");
-
+        newQuestion();
 
         setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
 
@@ -84,10 +84,13 @@ public class GameActivity extends AppCompatActivity{
             }
             public void onFinish() {
                 lifes -= 1;
+                level = 1;
                 myTimer.cancel();
                 myTimer.start();
                 point_mult = 1;
                 current_strick = 0;
+                newQuestion();
+                setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
                 lifesTextView.setText(Integer.toString(lifes));
                 if(lifes == 0){
                     onEndOfGame();
@@ -110,38 +113,42 @@ public class GameActivity extends AppCompatActivity{
         finish();
     }
 
-    private ArrayList<String> randomButtonPos(ArrayList<String> buttonNums){
+    private ArrayList<Double> randomButtonPos(ArrayList<Double> buttonNums){
         Collections.shuffle(buttonNums);
         return buttonNums;
     }
 
-    private void setAnswersOnButtons(Button answer1, Button answer2, Button answer3, Button answer4, ArrayList<String> answers){
+    private void setAnswersOnButtons(Button answer1, Button answer2, Button answer3, Button answer4, ArrayList<Double> answers){
         randomButtonPos(answers);
-        answer1.setText(answers.get(0));
-        answer2.setText(answers.get(1));
-        answer3.setText(answers.get(2));
-        answer4.setText(answers.get(3));
+        answer1.setText("" + answers.get(0));
+        answer2.setText("" + answers.get(1));
+        answer3.setText("" + answers.get(2));
+        answer4.setText("" + answers.get(3));
     }
 
     public void shuffleButtons(View view){
         Button currentButton;
         currentButton = findViewById(view.getId());
-        if(currentButton.getText().equals("" + rightAnswer)){
+        if(currentButton.getText().equals("" + right_answer)){
             myTimer.cancel();
             myTimer.start();
 
             if (current_strick == 3){
                 current_strick = 0;
                 point_mult += 1;
+                level += 1;
             }
             points += (1 * point_mult) ;
             current_strick +=1;
+            newQuestion();
             setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
             pointsView.setText(Integer.toString(points));
         }
         else{
             myTimer.cancel();
             myTimer.start();
+            level = 1;
+            newQuestion();
             setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
             current_strick = 0;
             point_mult = 1;
@@ -171,5 +178,12 @@ public class GameActivity extends AppCompatActivity{
             username += email.charAt(i);
         }
         return username;
+    }
+
+    private void newQuestion(){
+        expression = Expression.getExpression(level);
+        right_answer = Expression.solveExpression(expression);
+        answers = Expression.valuesToButtons(right_answer);
+        question.setText(expression);
     }
 }
