@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class GameActivity extends AppCompatActivity{
     private Button answer1, answer2, answer3 , answer4;
     ArrayList<String> answers = new ArrayList<>();
-    TextView lifesTextView,timerView,pointsView;
+    TextView lifesTextView,timerView,pointsView, mul;
     private CountDownTimer myTimer;
 
     private int lifes,points,rightAnswer,current_strick,point_mult = 1;
@@ -40,7 +40,7 @@ public class GameActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
 
         setContentView(R.layout.activity_game);
 
@@ -48,10 +48,12 @@ public class GameActivity extends AppCompatActivity{
         timerView = findViewById(R.id.timer);
         lifesTextView  = findViewById(R.id.lifes);
         pointsView = findViewById(R.id.points);
+        mul = findViewById(R.id.mult);
         answer1 = findViewById(R.id.button1);
         answer2 = findViewById(R.id.button2);
         answer3 = findViewById(R.id.button3);
         answer4 = findViewById(R.id.button4);
+
 
         auth = FirebaseAuth.getInstance();
 
@@ -70,7 +72,7 @@ public class GameActivity extends AppCompatActivity{
 
 
         setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
-
+        mul.setText("x" +point_mult);
 //      get current user name from base to farther work
         FirebaseUser currentUser = auth.getCurrentUser();
         username = getNameFromEmail(currentUser.getEmail());
@@ -87,6 +89,7 @@ public class GameActivity extends AppCompatActivity{
                 myTimer.cancel();
                 myTimer.start();
                 point_mult = 1;
+                mul.setText("x" +point_mult);
                 current_strick = 0;
                 lifesTextView.setText(Integer.toString(lifes));
                 if(lifes == 0){
@@ -133,6 +136,8 @@ public class GameActivity extends AppCompatActivity{
             if (current_strick == 3){
                 current_strick = 0;
                 point_mult += 1;
+                mul.setText("x" +point_mult);
+
             }
             points += (1 * point_mult) ;
             current_strick +=1;
@@ -145,6 +150,7 @@ public class GameActivity extends AppCompatActivity{
             setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
             current_strick = 0;
             point_mult = 1;
+            mul.setText("x" +point_mult);
             lifes -= 1;
             lifesTextView.setText(Integer.toString(lifes));
         }
@@ -162,6 +168,9 @@ public class GameActivity extends AppCompatActivity{
     }
 
     private void firebaseLeaderboard(){
+        
+
+
     }
 
     private String getNameFromEmail(String email){

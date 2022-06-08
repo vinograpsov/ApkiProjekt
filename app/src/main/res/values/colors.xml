@@ -9,4 +9,17 @@
     <color name="green">#4CFF00</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
+    <color name="light_green">#5168B35F</color>
+    <color name="light_gray">#23000000</color>
+    <color name="silent_green">#5C6862</color>
+    <color name="silent_brown">#998C80</color>
+
+    <color name="registration_gold">#eebc53</color>
+    <color name="registration_white">#fbe0c1</color>
+    <color name="leagerboard_purple">#ac07a3</color>
+    <color name="leaderboard_pink">#ff0163</color>
+    <color name="answer1">#17F385</color>
+    <color name="answer2">#001BAA</color>
+
+
 </resources>
