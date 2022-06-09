@@ -2,12 +2,12 @@ package com.example.projertapki;
 
 public class LeaderboardUser {
     private String name;
-    private String  points;
+    private Long  points;
 
     public LeaderboardUser() {
     }
 
-    public LeaderboardUser(String name, String points) {
+    public LeaderboardUser(String name, Long points) {
         this.name = name;
         this.points = points;
     }
@@ -21,11 +21,11 @@ public class LeaderboardUser {
         this.name = name;
     }
 
-    public String getPoints() {
+    public Long getPoints() {
         return points;
     }
 
-    public void setPoints(String points) {
+    public void setPoints(Long points) {
         this.points = points;
     }
 }
