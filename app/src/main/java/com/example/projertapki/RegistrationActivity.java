@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.InflateException;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,12 +19,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegistrationActivity extends AppCompatActivity {
     private EditText email, password;
     private Button register;
     private TextView warning;
-
+    private String username;
     private FirebaseAuth auth;
 
     @Override
@@ -73,6 +83,10 @@ public class RegistrationActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     warning.setText("Succsessful");
                     warning.setTextColor(Color.GREEN);
+
+                    username = getNameFromEmail(email);
+
+                    firebaseLeaderboard();
                     startActivity(new Intent(RegistrationActivity.this,GameActivity.class));
                     finish();
                 }
@@ -84,4 +98,25 @@ public class RegistrationActivity extends AppCompatActivity {
         });
 
     }
+
+    private void firebaseLeaderboard(){
+        FirebaseDatabase firebaseDatabase;
+        DatabaseReference databaseRef;
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseRef= firebaseDatabase.getReference().child("Leaderboard");
+        LeaderboardUser user = new LeaderboardUser(username,(long) 0 );
+        Map<String, Object> userHashMap = new HashMap<>();
+        userHashMap.put(username,user);
+        databaseRef.updateChildren(userHashMap);
+    }
+
+    private String getNameFromEmail(String email){
+        String username = "";
+        for(int i = 0; i < email.length();i++){
+            if (email.charAt(i) == '@') break;
+            username += email.charAt(i);
+        }
+        return username;
+    }
+
 }

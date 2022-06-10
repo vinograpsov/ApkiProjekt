@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -117,6 +118,7 @@ public class GameActivity extends AppCompatActivity{
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(GameActivity.this, StartActivity.class);
         startActivity(intent);
+        myTimer.cancel();
         finish();
     }
 
@@ -170,6 +172,7 @@ public class GameActivity extends AppCompatActivity{
     }
 
     private void onEndOfGame(){
+        myTimer.cancel();
         firebaseLeaderboard();
         Intent intent = new Intent(GameActivity.this, LeaderboardActivity.class);
         startActivity(intent);
@@ -178,9 +181,25 @@ public class GameActivity extends AppCompatActivity{
     }
 
     private void firebaseLeaderboard(){
-        
+        FirebaseDatabase firebaseDatabase;
+        DatabaseReference databaseRef;
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseRef= firebaseDatabase.getReference().child("Leaderboard").child(username);
+        databaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                LeaderboardUser info = dataSnapshot.getValue(LeaderboardUser.class);
+                if(info.getPoints() < points){
+                    info.setPoints((long) points);
+                    databaseRef.setValue(info);
+                }
+            }
 
-
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("doc", String.valueOf(points));
+            }
+        });
     }
 
     private String getNameFromEmail(String email){
