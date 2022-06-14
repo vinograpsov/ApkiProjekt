@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -135,40 +137,85 @@ public class GameActivity extends AppCompatActivity{
         answer4.setText("" + answers.get(3));
     }
 
-    public void shuffleButtons(View view){
+    public void shuffleButtons(View view) throws InterruptedException {
         Button currentButton;
         currentButton = findViewById(view.getId());
         if(currentButton.getText().equals("" + right_answer)){
             myTimer.cancel();
-            myTimer.start();
 
-            if (current_strick == 3){
-                current_strick = 0;
-                point_mult += 1;
-                mul.setText("x" +point_mult);
-                level += 1;
-            }
-            points += (1 * point_mult) ;
-            current_strick +=1;
-            newQuestion();
-            setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
-            pointsView.setText(Integer.toString(points));
+            currentButton.setBackgroundResource(R.drawable.right_answer);
+            new CountDownTimer(1000,1000) {
+
+                @Override
+                public void onTick(long arg0) {
+
+
+                }
+
+                @Override
+                public void onFinish() {
+                    myTimer.start();
+
+                    if (current_strick == 3){
+                        current_strick = 0;
+                        point_mult += 1;
+                        mul.setText("x" +point_mult);
+                        level += 1;
+                    }
+                    points += (1 * point_mult) ;
+                    current_strick +=1;
+                    newQuestion();
+
+                    setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
+                    pointsView.setText(Integer.toString(points));
+
+                    resetColors();
+                    if(lifes == 0){
+                        onEndOfGame();
+                    }
+                }
+            }.start();
+
         }
         else{
             myTimer.cancel();
-            myTimer.start();
-            level = 1;
-            newQuestion();
-            setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
-            current_strick = 0;
-            point_mult = 1;
-            mul.setText("x" +point_mult);
-            lifes -= 1;
-            lifesTextView.setText(Integer.toString(lifes));
+
+            currentButton.setBackgroundResource(R.drawable.wrong_answer);
+            findAndSetRight();
+
+
+            new CountDownTimer(1000,1000) {
+
+                @Override
+                public void onTick(long arg0) {
+
+
+                }
+
+                @Override
+                public void onFinish() {
+                    myTimer.start();
+                    level = 1;
+                    newQuestion();
+                    setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
+                    current_strick = 0;
+                    point_mult = 1;
+                    mul.setText("x" +point_mult);
+                    lifes -= 1;
+
+                    lifesTextView.setText(Integer.toString(lifes));
+
+                    resetColors();
+
+                    if(lifes == 0){
+                        onEndOfGame();
+                    }
+                }
+            }.start();
+
+
         }
-        if(lifes == 0){
-            onEndOfGame();
-        }
+
     }
 
     private void onEndOfGame(){
@@ -216,5 +263,28 @@ public class GameActivity extends AppCompatActivity{
         right_answer = Expression.solveExpression(expression);
         answers = Expression.valuesToButtons(right_answer);
         question.setText(expression);
+    }
+
+
+    private void resetColors(){
+        answer1.setBackgroundResource(R.drawable.custom_answer_buttons);
+        answer2.setBackgroundResource(R.drawable.custom_answer_buttons);
+        answer3.setBackgroundResource(R.drawable.custom_answer_buttons);
+        answer4.setBackgroundResource(R.drawable.custom_answer_buttons);
+    }
+
+    private void findAndSetRight(){
+        if (answer1.getText().equals("" + right_answer)){
+            answer1.setBackgroundResource(R.drawable.right_answer);
+        }
+        else if (answer2.getText().equals("" + right_answer)){
+            answer2.setBackgroundResource(R.drawable.right_answer);
+        }
+        else if (answer3.getText().equals("" + right_answer)){
+            answer3.setBackgroundResource(R.drawable.right_answer);
+        }
+        else if (answer4.getText().equals("" + right_answer)){
+            answer4.setBackgroundResource(R.drawable.right_answer);
+        }
     }
 }
