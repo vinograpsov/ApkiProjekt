@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,7 +35,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextView warning;
     private String username;
     private FirebaseAuth auth;
-
+    private MediaPlayer whatsup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,9 @@ public class RegistrationActivity extends AppCompatActivity {
         warning = findViewById(R.id.textView6);
 
         auth = FirebaseAuth.getInstance();
+
+        whatsup = new MediaPlayer().create(getApplicationContext(),R.raw.tmpznxaw7dq);
+        whatsup.start();
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +76,7 @@ public class RegistrationActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(RegistrationActivity.this, StartActivity.class);
         startActivity(intent);
+        whatsup.stop();
         finish();
     }
 
@@ -88,6 +93,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     firebaseLeaderboard();
                     startActivity(new Intent(RegistrationActivity.this,GameActivity.class));
+                    whatsup.stop();
                     finish();
                 }
                 else{

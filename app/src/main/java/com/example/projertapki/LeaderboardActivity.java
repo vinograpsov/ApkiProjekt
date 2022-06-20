@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class LeaderboardActivity extends AppCompatActivity {
-
+    private MediaPlayer sad_trombone;
     private Button restart, singOut;
     private ListView listView;
     @Override
@@ -37,12 +38,16 @@ public class LeaderboardActivity extends AppCompatActivity {
         singOut = findViewById(R.id.singOut);
         listView = findViewById(R.id.leaderboard);
 
+        sad_trombone = new MediaPlayer().create(getApplicationContext(),R.raw.sadtrombone);
+        sad_trombone.start();
+
         readFromDatabase();
 
         restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LeaderboardActivity.this,GameActivity.class));
+                sad_trombone.stop();
                 finish();
             }
         });
@@ -52,6 +57,7 @@ public class LeaderboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(LeaderboardActivity.this,StartActivity.class));
+                sad_trombone.stop();
                 finish();
             }
         });
@@ -62,6 +68,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(LeaderboardActivity.this, GameActivity.class);
         startActivity(intent);
+        sad_trombone.stop();
         finish();
     }
 

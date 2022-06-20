@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
 
+    private MediaPlayer rickroll;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,9 @@ public class LoginActivity extends AppCompatActivity {
         warning = findViewById(R.id.textView10);
 
         auth = FirebaseAuth.getInstance();
+
+        rickroll = new MediaPlayer().create(getApplicationContext(),R.raw.never_gonna_give_you_up);
+        rickroll.start();
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(LoginActivity.this, StartActivity.class);
         startActivity(intent);
+        rickroll.stop();
         finish();
     }
 
@@ -72,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                     warning.setText("Succsessful");
                     warning.setTextColor(Color.GREEN);
                     startActivity(new Intent(LoginActivity.this,GameActivity.class));
+                    rickroll.stop();
                     finish();
                 }
                 else{

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -28,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GameActivity extends AppCompatActivity{
     private Button answer1, answer2, answer3 , answer4;
-
+    private MediaPlayer badAnswer, goodAnswer,backgroundMusic;
     TextView lifesTextView,timerView,pointsView, mul,question;
 
     private CountDownTimer myTimer;
@@ -67,6 +68,12 @@ public class GameActivity extends AppCompatActivity{
         answer3 = findViewById(R.id.button3);
         answer4 = findViewById(R.id.button4);
 
+        goodAnswer = new MediaPlayer().create(getApplicationContext(),R.raw.vine_boom);
+        badAnswer = new MediaPlayer().create(getApplicationContext(),R.raw.nope_sound);
+        backgroundMusic = new MediaPlayer().create(getApplicationContext(),R.raw.back_music);
+
+
+        backgroundMusic.start();
 
         auth = FirebaseAuth.getInstance();
 
@@ -92,19 +99,39 @@ public class GameActivity extends AppCompatActivity{
                 timerView.setText("" + TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
             }
             public void onFinish() {
-                lifes -= 1;
-                level = 1;
                 myTimer.cancel();
-                myTimer.start();
-                point_mult = 1;
-                mul.setText("x" +point_mult);
-                current_strick = 0;
-                newQuestion();
-                setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
-                lifesTextView.setText(Integer.toString(lifes));
-                if(lifes == 0){
-                    onEndOfGame();
-                }
+                badAnswer.start();
+                findAndSetRight();
+
+
+                new CountDownTimer(1000,1000) {
+
+                    @Override
+                    public void onTick(long arg0) {
+
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        myTimer.start();
+                        level = 1;
+                        newQuestion();
+                        setAnswersOnButtons(answer1,answer2,answer3,answer4,answers);
+                        current_strick = 0;
+                        point_mult = 1;
+                        mul.setText("x" +point_mult);
+                        lifes -= 1;
+
+                        lifesTextView.setText(Integer.toString(lifes));
+
+                        resetColors();
+
+                        if(lifes == 0){
+                            onEndOfGame();
+                        }
+                    }
+                }.start();
             }
         }.start();
 
@@ -121,6 +148,7 @@ public class GameActivity extends AppCompatActivity{
         Intent intent = new Intent(GameActivity.this, StartActivity.class);
         startActivity(intent);
         myTimer.cancel();
+        backgroundMusic.stop();
         finish();
     }
 
@@ -142,7 +170,7 @@ public class GameActivity extends AppCompatActivity{
         currentButton = findViewById(view.getId());
         if(currentButton.getText().equals("" + right_answer)){
             myTimer.cancel();
-
+            goodAnswer.start();
             currentButton.setBackgroundResource(R.drawable.right_answer);
             new CountDownTimer(1000,1000) {
 
@@ -179,7 +207,7 @@ public class GameActivity extends AppCompatActivity{
         }
         else{
             myTimer.cancel();
-
+            badAnswer.start();
             currentButton.setBackgroundResource(R.drawable.wrong_answer);
             findAndSetRight();
 
@@ -223,6 +251,7 @@ public class GameActivity extends AppCompatActivity{
         firebaseLeaderboard();
         Intent intent = new Intent(GameActivity.this, LeaderboardActivity.class);
         startActivity(intent);
+        backgroundMusic.stop();
         finish();
 
     }
@@ -287,4 +316,6 @@ public class GameActivity extends AppCompatActivity{
             answer4.setBackgroundResource(R.drawable.right_answer);
         }
     }
+
+
 }
