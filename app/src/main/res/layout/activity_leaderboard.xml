@@ -17,7 +17,7 @@
         android:layout_marginEnd="16dp"
 
         android:background="@drawable/custom_leaderboard_button"
-        android:text="SING OUT"
+        android:text="SIGN OUT"
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

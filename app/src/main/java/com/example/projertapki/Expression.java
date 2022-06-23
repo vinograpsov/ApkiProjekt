@@ -12,7 +12,7 @@ public class Expression {
 
     public static double solveExpression(String expression){
         StringsCalculator polishNotationCalc = new StringsCalculator();
-        double answer = Math.round(polishNotationCalc.processInput(expression) * 1000.0) / 1000.0;
+        double answer = Math.round(polishNotationCalc.processInput(expression) * 10.0) / 10.0;
         return answer;
     }
 

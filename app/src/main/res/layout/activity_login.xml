@@ -74,7 +74,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="26dp"
         android:gravity="center"
-        android:text="SING IN"
+        android:text="SIGN IN"
         android:textColor="#AD1F4C0C"
         android:textSize="80sp"
         android:textStyle="bold"

@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                 String txtPassword = password.getText().toString();
 
                 if (TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPassword)) {
-                    Toast.makeText(LoginActivity.this, "Empty email of password pole", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Empty email of password field", Toast.LENGTH_SHORT).show();
                 } else if (txtPassword.length() < 6) {
                     Toast.makeText(LoginActivity.this, "Password to short", Toast.LENGTH_SHORT).show();
                 } else {
